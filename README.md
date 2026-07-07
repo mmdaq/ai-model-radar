@@ -104,30 +104,49 @@ AI News Radar (每30分钟自动更新)
 MIT
 
 
-## 🔧 首次设置（只需一次）
 
-由于 GitHub API 安全限制，workflow 文件需要手动移到正确位置：
+## 🔧 首次设置（1 分钟搞定）
 
-### 方式一：在线操作（30 秒）
+### 第一步：把 workflow 文件移到正确位置
 
-进入 [仓库 Actions 页面](https://github.com/mmdaq/ai-model-radar/actions)，
-点击 "🚀 AI 模型雷达日报 - 每日推送" → "Run workflow" 即可手动触发。
-
-### 方式二：本地 Git 操作
+由于 GitHub API 安全机制，workflow 文件目前放在 `.github/workflow-file.yml`。
+你只需要在本地执行：
 
 ```bash
-# Clone 到本地
+# 克隆项目
 git clone https://github.com/mmdaq/ai-model-radar.git
 cd ai-model-radar
 
-# 将 workflow 文件移到正确位置
+# 移动文件到正确位置
 mkdir -p .github/workflows
 mv .github/workflow-file.yml .github/workflows/daily-email.yml
 
 # 提交并推送
 git add -A
-git commit -m "chore: move workflow to .github/workflows/"
+git commit -m "setup: move workflow to correct path"
 git push
 ```
 
-> 完成后，GitHub Actions 会在每天 **09:00 和 21:00（北京时间）** 自动运行！
+### 第二步：配置邮箱 Secrets
+
+去仓库 **Settings → Secrets and variables → Actions → New repository secret** 添加：
+
+| Secret 名称 | 说明 | 示例 |
+|------------|------|------|
+| `MAIL_USERNAME` | 发件QQ邮箱 | `你的QQ号@qq.com` |
+| `MAIL_PASSWORD` | QQ邮箱授权码 🔑 | 16位字母（不是登录密码） |
+| `MAIL_TO` | 收件邮箱 | `385096659@qq.com` |
+
+> **💡 获取 QQ邮箱授权码：** 登录 QQ邮箱 → 设置 → 账户 → 开启 POP3/SMTP → 生成授权码
+
+### 第三步：启动自动推送
+
+配置好 Secrets 后，workflow 就会自动按 **每天 09:00 和 21:00（北京时间）** 运行。
+也可以去 [Actions 页面](https://github.com/mmdaq/ai-model-radar/actions) 点 **Run workflow** 手动测试。
+
+---
+
+## ⚡ 快速验证
+
+配置完成后，进入 Actions 手动触发一次，检查你的 **385096659@qq.com** 邮箱就能收到日报了！
+
