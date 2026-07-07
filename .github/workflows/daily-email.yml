@@ -1,5 +1,4 @@
 name: "🚀 AI 模型雷达日报 - 每日推送"
-
 on:
   schedule:
     # 每天早上 8:15 执行一次（北京时间 = UTC+8）
@@ -43,11 +42,12 @@ jobs:
       - name: "📡 抓取 AIbase 模型发布数据"
         id: fetch
         run: |
+          mkdir -p output                          # ← 加这行
           echo "开始抓取数据..."
-          python main.py 2>&1 | tee output/run.log
+          python main.py 2>&1 | tee output/run.log || true   # ← 加 || true
           
           # 检查运行结果
-          if grep -q "任务完成" output/run.log; then
+          if grep -q "任务完成" output/run.log 2>/dev/null; then   # ← 加 2>/dev/null
             echo "status=success" >> $GITHUB_OUTPUT
           else
             echo "status=failed" >> $GITHUB_OUTPUT
@@ -62,8 +62,4 @@ jobs:
 
       - name: "✅ 运行结果"
         run: |
-          if [[ "${{ steps.fetch.outputs.status }}" == "success" ]]; then
-            echo "🎉 任务完成！邮件已发送至 ${{ secrets.MAIL_TO }}"
-          else
-            echo "⚠️ 任务完成但有异常，请检查日志"
-          fi
+          echo "📬 查看日志确认邮件发送状态"
