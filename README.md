@@ -102,3 +102,32 @@ AI News Radar (每30分钟自动更新)
 ## 📜 License
 
 MIT
+
+
+## 🔧 首次设置（只需一次）
+
+由于 GitHub API 安全限制，workflow 文件需要手动移到正确位置：
+
+### 方式一：在线操作（30 秒）
+
+进入 [仓库 Actions 页面](https://github.com/mmdaq/ai-model-radar/actions)，
+点击 "🚀 AI 模型雷达日报 - 每日推送" → "Run workflow" 即可手动触发。
+
+### 方式二：本地 Git 操作
+
+```bash
+# Clone 到本地
+git clone https://github.com/mmdaq/ai-model-radar.git
+cd ai-model-radar
+
+# 将 workflow 文件移到正确位置
+mkdir -p .github/workflows
+mv .github/workflow-file.yml .github/workflows/daily-email.yml
+
+# 提交并推送
+git add -A
+git commit -m "chore: move workflow to .github/workflows/"
+git push
+```
+
+> 完成后，GitHub Actions 会在每天 **09:00 和 21:00（北京时间）** 自动运行！
